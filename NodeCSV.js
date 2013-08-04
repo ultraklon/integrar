@@ -9,11 +9,11 @@ var MachearCSV = function(fileName, callback) {
 			//new converter instance
 			var csvConverter = new con();
 
-			csvConverter.on("record_parsed",function(resultRow,rawRow,rowIndex){
+		/*	csvConverter.on("record_parsed",function(resultRow,rawRow,rowIndex){
 				console.log("fila: " + resultRow);
-			});
+			});*/
 			csvConverter.on("end_parsed", function(jsonObj){
-				console.log(jsonObj);
+				//console.log(jsonObj);
 				callback(jsonObj);
 			} );
 

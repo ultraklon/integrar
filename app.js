@@ -6,7 +6,8 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
-  , macheador = require('./NodeCSV');
+  , macheador = require('./NodeCSV')
+  , jsonQuery =  require('json-query');
 
 var app = express();
 var webdir = './';
@@ -37,11 +38,30 @@ if ('development' == app.get('env')) {
 app.get('/', function(req, res) {
 	res.render(__dirname +  '/views/index.ejs')
 });
+app.get('/api/discapacitados', function(req, res) {
 
-app.get('/api/discapacitados/', function(req, res) {
 	macheador.MachearCSV("educacion-2011-discapacidad.csv", function ( jeison ){ //req.params.fileName
-			res.send(jeison);
+		
+		res.send(jeison);}
+	);
+	
+});
+
+app.get('/api/discapacitados/:cod_provincia', function(req, res) {
+	var prov = req.params.cod_provincia.split('=')[1];
+	macheador.MachearCSV("educacion-2011-discapacidad.csv", function ( jeison ){ //req.params.fileName
+
+		if(prov){
+			console.log(jsonQuery('csvRows[cod_provincia=' + prov + ']', {
+			  rootContext: jeison
+			}).value);
+			res.send(jsonQuery('csvRows[cod_provincia=' + prov + ']', {
+			  rootContext: jeison
+			}).value);
+		}else{
+		res.send(jeison);}
 	});
+	
 });
 app.get('/api/tramites/', function(req, res) {
 	macheador.MachearCSV("tramites.csv", function ( jeison ){ //req.params.fileName

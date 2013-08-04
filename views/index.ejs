@@ -158,9 +158,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="span4">
-				<ul class="nav nav-tabs">
-					<li class="active">
+			<div class="span6">
+				 <ul class="nav nav-tabs" >
+					<li class="active" id="liEducacion">
 						<a href="#">Educación</a>
 					</li>
 					<li>
@@ -173,12 +173,11 @@
 						<a href="#">Desarrollo Social</a>
 					</li>
 				</ul>
-				
-				<div id="Educacion">
+				 <div id="Educacion">
 
-					  <div id='jqxChart' style="width:680px; height:400px; position: relative; left: 0px; top: 0px;">
-    				</div>
-				</div>	
+				  <div id='jqxChart' style="width:680px; height:600px; position: relative; left: 0px; top: 0px;">
+				</div>
+				 
 			</div>
 
 			<div class="span4">
@@ -186,52 +185,7 @@
 			</div>
 		</div>
 
-	<!-- 
-	<div class="page-header">
-        <h1>INTEGR.AR</h1>
-     </div>
-	<div class="bs-docs-grid">
-		<div class="row-fluid show-grid">
-			<div class="span4">
-
-			</div>
-			<div class="span4">
-
- 					<input type="text" class="search-query" id="txtDestino" placeholder="Origen"/>
- 			</div>
- 
-			<div class="span4">
-			</div>
-		</div>
-		<br/>
-		<div class="row-fluid show-grid">
-			<div class="span4">
-
-			</div>
-			<div class="span4">
-
- 					<input type="text" class="search-query"  placeholder="Destino"/>
- 			</div>
-
-			<div class="span4">
-			</div>
-		</div>
-		<br/>
-		<div class="row-fluid show-grid">
-			<div class="span2">
-
-			</div>
-			<div class="span4">
-				<div id="dvGrid" ></div>
- 			</div>
-
-			<div class="span4">
-			</div>
-		</div>
-		
-	</div>
- 					
-	 -->
+	
 </body>
 </html>
 <script type="text/javascript">
@@ -241,9 +195,6 @@ $.ajax({
   url: 'http://localhost:3000/api/discapacitados/',
   //data: data,
   success: function(data){
-
-  		//console.log(data.csvRows);
-  		
   		
   		for (var i = 0; i < data.csvRows.length; i++) {
 		  element = data.csvRows[i];
@@ -268,6 +219,10 @@ $.ajax({
 		                dataField: 'provincia',
 		                showGridLines: true,
 		                flip: false
+		               
+		                /*,
+		                horizontalTextAlignment: true,
+		                horizontalDescriptionAlignment: true*/
 		            },
 		        colorScheme: 'scheme01',
 		        seriesGroups:
@@ -276,7 +231,7 @@ $.ajax({
 		                    type: 'column',
 		                    orientation: 'horizontal',
 		                    columnsGapPercent: 1000,
-		                   // toolTipFormatSettings: { thousandsSeparator: ',' },
+		                    toolTipFormatSettings: { thousandsSeparator: ',' },
 		                    valueAxis:
 		                    {
 		                        flip: true,
@@ -284,6 +239,9 @@ $.ajax({
 		                        maxValue: 70000,
 		                        displayValueAxis: true,
 		                        description: '',
+		                        
+/*		                        horizontalTextAlignment: true,
+		                        horizontalDescriptionAlignment: true,*/
 		                        formatFunction: function (value) {
 		                            return parseInt(value / 10000);
 		                        }
@@ -314,6 +272,12 @@ $.ajax({
 					$("#"+provLocal).css("opacity", "0");
 				});
 			}
+
+	$('#nav li a').click(function(){
+
+		$('#nav li a').removeClass('active')
+		$(this).addClass('active');
+	});
 
 	window.load =		initialize();
  /* [

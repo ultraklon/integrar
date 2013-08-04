@@ -9,7 +9,7 @@ var express = require('express')
   , macheador = require('./NodeCSV');
 
 var app = express();
-
+var webdir = './';
 // all environments
 app.set('domain', '192.168.1.49');
 app.set('port', process.env.PORT || 3000);
@@ -21,10 +21,14 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(app.router);
+app.use(app.router	);
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//app.use(express.static('/home/myName/allMyMedia/'));
+//app.use(express.directory(path.join(__dirname, 'public/img/')));
+
+//app.use("/public/img", 	express.static(__dirname+"/public/img"));
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -40,7 +44,7 @@ app.get('/api/discapacitados/', function(req, res) {
 	});
 });
 app.get('/api/tramites/', function(req, res) {
-	macheador.MachearCSV("tra.csv", function ( jeison ){ //req.params.fileName
+	macheador.MachearCSV("tramites.csv", function ( jeison ){ //req.params.fileName
 			res.send(jeison);
 	});
 });

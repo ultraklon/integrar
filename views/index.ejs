@@ -14,6 +14,9 @@
 	<script type="text/javascript" src="js/underscore.js"></script>
 	<script type="text/javascript" src="js/backbone.js"></script>
 	
+	<script type="text/javascript" src="js/jqwidgets/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="js/jqwidgets/jqwidgets/jqxchart.js"></script>
+    <script type="text/javascript" src="js/jqwidgets/jqwidgets/jqxdata.js"></script>
 <!-- 	
 <script type="text/javascript" src="js/view.grid.js" ></script>
 	<script type="text/javascript" src="js/slick/jquery-ui-1.8.16.custom.min.js"></script>
@@ -86,11 +89,16 @@
 					<li >
 						<a href="#">Tramites</a>
 					</li>
-					<li >
+					<li 	>
 						<a href="#">Desarrollo Social</a>
 					</li>
 				</ul>
 				
+				<div id="Educacion">
+
+					  <div id='jqxChart' style="width:680px; height:400px; position: relative; left: 0px; top: 0px;">
+    				</div>
+				</div>	
 			</div>
 
 			<div class="span4">
@@ -147,25 +155,77 @@
 </body>
 </html>
 <script type="text/javascript">
-/*
-var dataset = new recline.Model.Dataset({
-  url: 'sample.csv',
-  backend: 'csv',
-   delimiter: ','
-  // quotechar: '"',
-  // encoding: 'utf8'
+var sampleData =  [];
+$.ajax({
+  dataType: "json",
+  url: 'http://localhost:3000/api/discapacitados/',
+  //data: data,
+  success: function(data){
+
+  		//console.log(data.csvRows);
+  		
+  		
+  		for (var i = 0; i < data.csvRows.length; i++) {
+		  element = data.csvRows[i];
+		  
+		  sampleData.push(
+		    	{provincia: element.provincia, total: element.total}
+			);
+		  console.log(element.total);
+		}
+
+  		//sampleData = data.csvRows; 	
+		var settings = {
+		        title: "Total de Personas",
+		        description: "Estadisticas",
+		        showLegend: true,
+		        enableAnimations: true,
+		        padding: { left: 20, top: 5, right: 20, bottom: 5 },
+		        titlePadding: { left: 90, top: 0, right: 0, bottom: 10 },
+		        source: sampleData,
+		        categoryAxis:
+		            {
+		                dataField: 'provincia',
+		                showGridLines: true,
+		                flip: false
+		            },
+		        colorScheme: 'scheme01',
+		        seriesGroups:
+		            [
+		                {
+		                    type: 'column',
+		                    orientation: 'horizontal',
+		                    columnsGapPercent: 1000,
+		                   // toolTipFormatSettings: { thousandsSeparator: ',' },
+		                    valueAxis:
+		                    {
+		                        flip: true,
+		                        unitInterval: 10000,
+		                        maxValue: 70000,
+		                        displayValueAxis: true,
+		                        description: '',
+		                        formatFunction: function (value) {
+		                            return parseInt(value / 10000);
+		                        }
+		                    },
+		                    series: [
+		                            { dataField: 'total', displayText: 'Total (miles)' }
+		                        ]
+		                }
+		            ]
+		    };
+		    // setup the chart
+		    $('#jqxChart').jqxChart(settings);
+  }
 });
+		
 
-// remember this is async so if you want to do something you need to call it in done method e.g.
-// dataset.fetch.done(function(dataset) { console.log(dataset.recordCount)});
-dataset.fetch();
-
-// show the data for illustrations sake
-var grid = new recline.View.SlickGrid({
-  model: dataset
-});
-$('#dvGrid').append(grid.el);
-
-console.log(grid);
-console.log(dataset);*/
+ /* [
+    { Provincia: 'Buenos Aires', Population: 6893, Percent: 19.18},
+    { Provincia: 'India', Population: 1210193422, Percent: 17.22},
+    { Provincia: 'USA', Population: 313912000, Percent: 4.47},
+    { Provincia: 'Indonesia', Population: 237641326, Percent: 3.38},
+    { Provincia: 'Brazil', Population: 192376496, Percent: 2.74}];
+ */   // prepare jqxChart settings
+    
 </script>
